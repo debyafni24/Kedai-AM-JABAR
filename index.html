@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kedai A'M — Jajanan Pedas Bikin Nagih</title>
+<meta name="google-site-verification" content="TJiSO2pt5Gk9GYJzhKA5B9KSI8hoOB5wiepIJGK4ldw" />
+
+<meta name="description" content="Kedai A'M: basreng, seblak, wonton, mie jebew, dan jajanan manis mulai 5rb. Pesan langsung via WhatsApp.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Kedai AM Jabar",
+  "url": "https://kedai-am.netlify.app",
+  "description": "Kedai AM Jabar menyediakan berbagai jajanan pedas, makanan, dan minuman.",
+  "servesCuisine": "Indonesian"
+}
+</script>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1D1210">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kedai AM">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kedai AM Jabar">
+<meta property="og:title" content="Kedai AM Jabar — Jajanan Pedas Bikin Nagih">
+<meta property="og:description" content="Basreng, seblak, wonton, Mie Jebew dan jajanan manis mulai 5rb. Pesan langsung via WhatsApp.">
+<meta property="og:url" content="https://kedai-am.netlify.app/">
+<meta property="og:image" content="https://kedai-am.netlify.app/icon-512.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<nav id="navbar">
+  <div class="wrap">
+    <a href="#hero" class="logo" aria-label="Kedai A'M beranda">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5"/><path d="M7 10c0-1 1-2 2-2h6c1 0 2 1 2 2 0 3-2 6-5 6s-5-3-5-6Z" stroke="currentColor" stroke-width="1.5"/></svg>
+      Kedai A'M
+    </a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#signature">Mie Jebew</a></li>
+      <li><a href="#testimoni">Testimoni</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button id="navSearch" class="nav-search" type="button" aria-label="Cari menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+      <a href="#faq" class="btn btn-ghost">Tanya Dulu</a>
+      <button id="navCart" class="btn btn-primary" type="button">🛒 <span class="nav-label">Keranjang</span> <span class="nav-count" id="navCount" hidden>0</span></button>
+      <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#menu">Menu</a>
+  <a href="#signature">Mie Jebew</a>
+  <a href="#testimoni">Testimoni</a>
+  <a href="#faq">FAQ</a>
+  <button id="mobileCart" class="btn btn-primary" type="button">🛒 Buka Keranjang</button>
+</div>
+
+<header id="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="grain"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">🌶️ Jajanan kaki lima, rasa juara</span>
+      <h1>Pedas yang <em>bikin balik lagi.</em></h1>
+      <p class="lead">Basreng, seblak, wonton chili oil, sampai Mie Jebew legendaris — semua mulai dari 5 ribu. Tinggal chat, langsung diproses.</p>
+      <div class="hero-ctas">
+        <a href="#menu" class="btn btn-primary">🛒 Pesan Sekarang</a>
+        <a href="#menu" class="btn btn-ghost btn-on-dark">Lihat Menu</a>
+        <button type="button" id="shareBtn" class="btn btn-ghost btn-on-dark">↗ Bagikan</button>
+      </div>
+      <div id="installCard" class="install-card" hidden>
+        <img src="icon-192.png" alt="" width="44" height="44">
+        <p>Install Kedai AM Jabar di perangkatmu agar lebih cepat dibuka saat ingin pesan.</p>
+        <button type="button" id="installBtn" class="btn btn-light">Install Aplikasi</button>
+        <button type="button" id="installDismiss" class="ic-x" aria-label="Sembunyikan">✕</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b data-count="15">0</b><span>varian jajanan</span></div>
+        <div class="stat"><b data-count="5" data-prefix="Rp">0</b><span>mulai dari (ribu)</span></div>
+        <div class="stat"><b data-count="98">0</b><span>% repeat order</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="img/logo.png" alt="Logo Mie Jebew Pedas Enak" class="hero-logo-img">
+    </div>
+  </div>
+</header>
+
+<div id="trust">
+  <div class="wrap">
+    <span class="item">⭐ 4.9/5 rating pelanggan</span>
+    <span class="item">⚡ Respon WA rata-rata &lt; 5 menit</span>
+    <span class="item">🌶️ Level pedas bisa disesuaikan</span>
+    <span class="item">💸 Harga mulai Rp5.000</span>
+    <span class="item">🚚 Gratis ongkir Kampung Tahu Cibuntu</span>
+  </div>
+</div>
+
+<section id="menu" class="section">
+  <div class="wrap">
+    <h2 class="sr-only">Menu Kedai A'M</h2>
+    <div class="menu-search" role="search">
+      <label for="menuSearch" class="sr-only">Cari menu</label>
+      <svg class="ms-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="menuSearch" type="search" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="Cari menu, misal: seblak, pisang, es…">
+      <button type="button" id="menuSearchClear" class="ms-clear" aria-label="Hapus pencarian" hidden>✕</button>
+    </div>
+    <p id="menuSearchInfo" class="ms-info" role="status" aria-live="polite" hidden></p>
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" data-tab="asin" role="tab" aria-selected="true">Makanan Asin</button>
+      <button class="tab-btn" data-tab="manis" role="tab" aria-selected="false">Makanan Manis</button>
+      <button class="tab-btn" data-tab="minuman" role="tab" aria-selected="false">Minuman Dingin</button>
+    </div>
+
+    <div class="tab-panel active" id="panel-asin" data-label="Makanan Asin">
+      <h3 class="panel-title">Makanan Asin</h3>
+      <div class="menu-grid">
+        <div class="menu-card reveal" data-keywords="original mix tulang baso bakso pangsit ayam lengkap mie"><div class="menu-photo"><span class="bs-ribbon">🏆 Best Seller</span><img src="img/menu/mie-jebew.jpg" alt="Mie Jebew" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Mie Jebew</span><span class="order-mini">4 varian, mulai original</span></div><span class="price">5k</span></div><div class="ctl"><a href="#signature" class="btn-add btn-add-link">Pilih Varian</a></div></div>
+        <div class="menu-card reveal" data-item data-id="basreng-cobek" data-name="Basreng Cobek" data-price="5000"><div class="menu-photo"><img src="img/menu/basreng-cobek.jpg" alt="Basreng Cobek" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Basreng Cobek</span><span class="order-mini">Level pedas custom</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="siomay-mayo" data-name="Siomay Mayo" data-price="5000"><div class="menu-photo"><img src="img/menu/siomay-mayo.jpg" alt="Siomay Mayo" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Siomay Mayo</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="pangsit-ayam-goreng" data-name="Pangsit Ayam Goreng" data-price="5000"><div class="menu-photo"><img src="img/menu/pangsit-ayam-goreng.jpg" alt="Pangsit Ayam Goreng" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Pangsit Ayam Goreng</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="wonton-goreng" data-name="Wonton Goreng Chili Oil" data-price="5000"><div class="menu-photo"><img src="img/menu/wonton-goreng.jpg" alt="Wonton Goreng Chili Oil" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Wonton Goreng Chili Oil</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="wonton-rebus" data-name="Wonton Rebus Chili Oil" data-price="5000"><div class="menu-photo"><img src="img/menu/wonton-rebus.jpg" alt="Wonton Rebus Chili Oil" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Wonton Rebus Chili Oil</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="seblak" data-name="Seblak" data-price="5000"><div class="menu-photo"><img src="img/menu/seblak.jpg" alt="Seblak" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Seblak</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-manis" data-label="Makanan Manis">
+      <h3 class="panel-title">Makanan Manis</h3>
+      <div class="menu-grid">
+        <div class="menu-card reveal" data-item data-id="pisang-keju" data-name="Pisang Keju" data-price="5000"><div class="menu-photo"><img src="img/menu/pisang-keju.jpg" alt="Pisang Keju" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Pisang Keju</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="pisang-krispi" data-name="Pisang Krispi" data-price="5000"><div class="menu-photo"><img src="img/menu/pisang-krispi.jpg" alt="Pisang Krispi" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Pisang Krispi</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="bola-bola-ubi" data-name="Bola-Bola Ubi" data-price="5000"><div class="menu-photo"><img src="img/menu/bola-bola-ubi.jpg" alt="Bola-Bola Ubi" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Bola-Bola Ubi</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="tansuke" data-name="Tansuke" data-price="5000"><div class="menu-photo"><img src="img/menu/tansuke.jpg" alt="Tansuke" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Tansuke</span></div><span class="price">5k</span></div><div class="ctl"></div></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="panel-minuman" data-label="Minuman Dingin">
+      <h3 class="panel-title">Minuman Dingin</h3>
+      <div class="menu-grid">
+        <div class="menu-card reveal" data-item data-id="top-ice" data-keywords="es minum segar seger" data-name="Aneka Top Ice" data-price="1000"><div class="menu-photo"><img src="img/menu/top-ice.jpg" alt="Aneka Top Ice" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Aneka Top Ice</span></div><span class="price">1k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="marimas" data-keywords="es minum segar seger" data-name="Aneka Marimas" data-price="1000"><div class="menu-photo"><img src="img/menu/marimas.jpg" alt="Aneka Marimas" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Aneka Marimas</span></div><span class="price">1k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="pop-ice" data-keywords="es minum segar seger" data-name="Pop Ice" data-price="3000"><div class="menu-photo"><img src="img/menu/pop-ice.jpg" alt="Pop Ice" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Pop Ice</span></div><span class="price">3k</span></div><div class="ctl"></div></div>
+        <div class="menu-card reveal" data-item data-id="nutrisari" data-keywords="es minum segar seger" data-name="Nutrisari" data-price="3000"><div class="menu-photo"><img src="img/menu/nutrisari.jpg" alt="Nutrisari" loading="lazy" width="480" height="480"></div><div class="menu-body"><div class="menu-card-inner"><span class="name">Nutrisari</span></div><span class="price">3k</span></div><div class="ctl"></div></div>
+      </div>
+    </div>
+    <div id="menuEmpty" class="menu-empty" hidden>
+      <p>Menu <b id="menuEmptyQ"></b> belum ketemu.</p>
+      <p class="me-sub">Coba kata lain, atau tanya admin langsung — siapa tahu ada yang belum dipajang.</p>
+      <a id="menuEmptyWA" class="btn btn-primary" target="_blank" rel="noopener">Tanya Admin via WhatsApp</a>
+    </div>
+
+  </div>
+</section>
+
+<section id="signature" class="section">
+  <div class="wrap zig">
+    <div class="reveal">
+      <div class="badge-row"><span class="badge">🔥 SIGNATURE MENU</span><span class="badge badge-bs">🏆 BEST SELLER</span></div>
+      <h3>Mie Jebew — pedas enak, susah move on.</h3>
+      <p>Mie dengan racikan bumbu pedas khas kedai, topping bubuk gurih. Bisa mix tulang, baso, atau lengkap dengan pangsit ayam.</p>
+      <div class="price-list">
+        <div class="price-row" data-item data-id="mie-jebew-original" data-name="Mie Jebew Original" data-price="5000" data-img="img/menu/mie-jebew.jpg"><span class="pr-name">Original</span><span class="pr-price">5k</span><div class="ctl ctl-sm"></div></div>
+        <div class="price-row" data-item data-id="mie-jebew-mix-tulang" data-name="Mie Jebew Mix Tulang" data-price="7000" data-img="img/menu/mie-jebew.jpg"><span class="pr-name">Mix Tulang</span><span class="pr-price">7k</span><div class="ctl ctl-sm"></div></div>
+        <div class="price-row" data-item data-id="mie-jebew-mix-baso" data-name="Mie Jebew Mix Baso" data-price="7000" data-img="img/menu/mie-jebew.jpg"><span class="pr-name">Mix Baso</span><span class="pr-price">7k</span><div class="ctl ctl-sm"></div></div>
+        <div class="price-row" data-item data-id="mie-jebew-mix-lengkap" data-name="Mie Jebew Mix Tulang + Baso + Pangsit Ayam" data-price="10000" data-img="img/menu/mie-jebew.jpg"><span class="pr-name">Mix Tulang + Baso + Pangsit Ayam</span><span class="pr-price">10k</span><div class="ctl ctl-sm"></div></div>
+      </div>
+      <button type="button" class="btn btn-light open-cart">🛒 Lihat Keranjang</button>
+    </div>
+    <div class="photo-stack reveal">
+      <figure class="photo-card photo-card-a">
+        <img src="img/mie-pedas.jpg" alt="Mie Jebew level pedas dengan taburan kerupuk pangsit" loading="lazy" width="700" height="933">
+        <span class="bs-ribbon bs-ribbon-photo">🏆 Best Seller</span><figcaption>Level Pedas</figcaption>
+      </figure>
+      <figure class="photo-card photo-card-b">
+        <img src="img/mie-original.jpg" alt="Mie Jebew tidak pedas dengan taburan bawang dan seledri" loading="lazy" width="700" height="933">
+        <figcaption>Tidak Pedas</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="testimoni" class="section" style="background:var(--cream-2);">
+  <div class="wrap">
+    <div class="head center">
+      <h2>Kata mereka yang udah cobain.</h2>
+    </div>
+    <div class="carousel">
+      <div class="t-track">
+        <div class="t-slides" id="tSlides">
+          <div class="t-slide"><div class="t-card"><p class="quote">"Basreng cobeknya juara, level 3 udah bikin nangis tapi nagih terus."</p><div class="t-avatar">A</div><div class="t-name">Auladi</div><div class="t-role">Pelanggan tetap</div></div></div>
+          <div class="t-slide"><div class="t-card"><p class="quote">"Mie Jebew mix lengkap tuh porsinya pas banget buat makan siang, pedasnya nampol."</p><div class="t-avatar">R</div><div class="t-name">Rizky</div><div class="t-role">Order via WA</div></div></div>
+          <div class="t-slide"><div class="t-card"><p class="quote">"Respon chatnya cepat, pesan jam 9 pagi jam 10 udah sampai. Seblaknya juga enak."</p><div class="t-avatar">M</div><div class="t-name">Nadia</div><div class="t-role">Pelanggan baru</div></div></div>
+        </div>
+      </div>
+      <div class="t-arrows">
+        <button class="t-arrow" id="tPrev" aria-label="Testimoni sebelumnya">‹</button>
+        <button class="t-arrow" id="tNext" aria-label="Testimoni berikutnya">›</button>
+      </div>
+      <div class="t-nav" id="tNav"></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section">
+  <div class="wrap" style="max-width:760px;">
+    <div class="head"><h2>Pertanyaan yang sering ditanya.</h2></div>
+    <div id="faqList">
+      <div class="faq-item open">
+        <button class="faq-q">Gimana cara pesan? <span class="plus">+</span></button>
+        <div class="faq-a" style="max-height:100px;"><p>Pilih menu favoritmu, tekan "Tambah" untuk masuk keranjang. Kalau sudah semua, buka keranjang, isi nama, pilih diantar atau ambil sendiri, lalu kirim — daftar pesananmu otomatis terisi di chat WhatsApp.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Level pedas bisa diatur nggak? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Bisa. Sebutkan level pedas yang kamu mau di chat WhatsApp, kami sesuaikan sebelum diproses.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Metode pembayarannya apa saja? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Cash saat barang sampai (COD area terdekat) atau transfer — detail rekening dikirim lewat chat WhatsApp setelah order dikonfirmasi.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Area pengiriman sampai mana? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Pengantaran minimal 3 item dan gratis ongkir untuk wilayah Kampung Tahu Cibuntu. Di luar wilayah itu, ongkir dikonfirmasi admin lewat WhatsApp. Kalau ambil sendiri, tidak ada minimal pembelian.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Bisa dipasang seperti aplikasi? <span class="plus">+</span></button>
+        <div class="faq-a"><p>Bisa. Buka website ini di HP lalu tekan "Install Aplikasi" (di iPhone: Bagikan → Tambah ke Layar Utama). Ikon Kedai AM Jabar akan muncul di layar utama. Tanpa install pun kamu tetap bisa pesan lewat link biasa.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta" class="section">
+  <div class="wrap">
+    <h2>Perut keroncongan? Chat aja dulu.</h2>
+    <p>Balasan cepat, proses langsung, pedasnya bisa disesuaikan selera kamu.</p>
+    <a id="wa-cta" href="#" target="_blank" rel="noopener" class="btn btn-light">Chat WhatsApp Sekarang</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Kedai A'M</div>
+        <p style="max-width:280px; font-size:.9rem; line-height:1.6;">Jajanan pedas kaki lima favorit — basreng, seblak, wonton, sampai Mie Jebew, semua mulai 5 ribu.</p>
+      </div>
+      <div>
+        <h4>Navigasi</h4>
+        <ul><li><a href="#menu">Menu</a></li><li><a href="#signature">Mie Jebew</a></li><li><a href="#testimoni">Testimoni</a></li><li><a href="#faq">FAQ</a></li></ul>
+      </div>
+      <div>
+        <h4>Kontak</h4>
+        <ul><li>Admin: Alya</li><li><a id="wa-foot" href="#" target="_blank" rel="noopener">WhatsApp: +62 896-4840-4791</a></li><li><button type="button" id="shareFoot" class="foot-link">↗ Bagikan website</button></li><li id="installFootLi" hidden><button type="button" id="installFoot" class="foot-link">Install Aplikasi</button></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© copyright <span id="year"></span> Kedai A'M — Deby Afni Nur Azizah.</span>
+      <div class="social">
+        <a href="#" aria-label="Instagram" onclick="return false;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="orderToast" role="status" aria-live="polite"><span class="ot-label">Nomor kamu hari ini</span><b id="orderToastId">-</b><span class="ot-note">Pesananmu sudah dibuka di WhatsApp, tinggal kirim ya</span></div>
+
+<button type="button" id="cartBar" class="cart-bar" aria-label="Buka keranjang"><span>🛒</span><span id="barLabel">0 item</span><span class="cb-go">Lihat ›</span></button>
+
+<div id="cartOverlay" class="cart-overlay"></div>
+<aside id="cartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+  <div class="cd-head"><h3 id="cartTitle">Keranjang kamu</h3><button type="button" id="cartClose" class="cd-close" aria-label="Tutup keranjang">✕</button></div>
+  <div class="cd-body">
+    <div id="cartEmpty" class="cd-empty"><p>Keranjangmu masih kosong.<br>Pilih menu dulu, ya!</p><button type="button" class="btn btn-primary" id="cartToMenu">Lihat Menu</button></div>
+    <div id="cartContent" hidden>
+      <ul id="cartList" class="cd-list"></ul>
+      <div class="cd-total"><span>Total belanja</span><b id="cartTotal">Rp0</b></div>
+
+      <h4 class="cd-sec-title">Atas nama</h4>
+      <input id="custName" class="cd-input" type="text" maxlength="40" placeholder="Nama kamu" autocomplete="name">
+
+      <h4 class="cd-sec-title">Diantar atau ambil sendiri?</h4>
+      <div class="opt-row">
+        <label class="opt"><input type="radio" name="method" value="antar"><span><b>🛵 Diantar</b><small>Minimal 3 item</small></span></label>
+        <label class="opt"><input type="radio" name="method" value="ambil"><span><b>🏪 Ambil sendiri</b><small>Tanpa minimal</small></span></label>
+      </div>
+
+      <div id="deliveryBox" hidden>
+        <p class="cd-note">🚚 <b>Gratis ongkir</b> untuk wilayah <b>Kampung Tahu Cibuntu</b>. Di luar wilayah itu, ongkir dikonfirmasi admin lewat WhatsApp.</p>
+        <label class="opt opt-line"><input type="radio" name="area" value="in" checked> Kampung Tahu Cibuntu (gratis ongkir)</label>
+        <label class="opt opt-line"><input type="radio" name="area" value="out"> Di luar wilayah (ongkir dicek admin)</label>
+        <textarea id="custAddress" class="cd-input" rows="2" maxlength="200" placeholder="Alamat lengkap / patokan rumah"></textarea>
+      </div>
+
+      <h4 class="cd-sec-title">Catatan (opsional)</h4>
+      <textarea id="custNote" class="cd-input" rows="2" maxlength="200" placeholder="Contoh: basreng level pedas 3"></textarea>
+    </div>
+  </div>
+  <div class="cd-foot" id="cartFoot" hidden>
+    <p class="cd-hint" id="cartHint" aria-live="polite"></p>
+    <button type="button" id="checkoutBtn" class="btn btn-primary btn-checkout" disabled>Pesan via WhatsApp</button>
+  </div>
+</aside>
+
+<button id="backtop" aria-label="Kembali ke atas">↑</button>
+
+<div id="sheetOverlay" class="sheet-overlay"></div>
+
+<div id="shareSheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="shareTitle" aria-hidden="true">
+  <div class="sheet-head"><h3 id="shareTitle">Bagikan Kedai AM Jabar</h3><button type="button" class="cd-close" data-close-sheet aria-label="Tutup">✕</button></div>
+  <p class="sheet-sub">Kirim link ini ke teman atau keluarga. Mereka bisa langsung pesan lewat browser, dan bisa juga meng-install aplikasinya.</p>
+  <div class="share-link"><input id="shareInput" type="text" readonly aria-label="Link Kedai AM Jabar"><button type="button" id="shareCopy" class="btn btn-primary">Salin Link</button></div>
+  <div class="share-apps">
+    <a id="shareWA" class="share-app" target="_blank" rel="noopener">WhatsApp</a>
+    <a id="shareTG" class="share-app" target="_blank" rel="noopener">Telegram</a>
+    <a id="shareFB" class="share-app" target="_blank" rel="noopener">Facebook</a>
+    <a id="shareMail" class="share-app">Email</a>
+  </div>
+  <p class="sheet-hint">Untuk Instagram: salin link lalu tempel di bio, story, atau DM.</p>
+</div>
+
+<div id="iosSheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="iosTitle" aria-hidden="true">
+  <div class="sheet-head"><h3 id="iosTitle">Install di iPhone / iPad</h3><button type="button" class="cd-close" data-close-sheet aria-label="Tutup">✕</button></div>
+  <ol class="ios-steps">
+    <li>Buka website ini di <b>Safari</b>.</li>
+    <li>Ketuk tombol <b>Bagikan</b> (kotak dengan panah ke atas).</li>
+    <li>Pilih <b>Tambah ke Layar Utama</b>, lalu ketuk <b>Tambah</b>.</li>
+  </ol>
+  <button type="button" class="btn btn-primary" data-close-sheet style="width:100%; justify-content:center;">Mengerti</button>
+</div>
+
+<script src="js/script.js"></script>
+<script src="js/pwa.js"></script>
+</body>
+</html>
