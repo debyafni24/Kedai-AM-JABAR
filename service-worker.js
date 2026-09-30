@@ -1,6 +1,6 @@
 /* Kedai AM Jabar — Service Worker
    Naikkan VERSION setiap kali file website diubah supaya cache lama diganti. */
-const VERSION = 'v4';
+const VERSION = 'v6';
 const CORE = 'am-core-' + VERSION;
 const RUNTIME = 'am-runtime-' + VERSION;
 const NAV_TIMEOUT = 4000; // koneksi lambat > 4 detik -> pakai salinan tersimpan

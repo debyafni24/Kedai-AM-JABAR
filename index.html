@@ -73,7 +73,7 @@
   <button id="mobileCart" class="btn btn-primary" type="button">🛒 Buka Keranjang</button>
 </div>
 
-<header id="hero">
+<header id="hero" class="hero">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="grain"></div>
@@ -292,7 +292,7 @@
 <aside id="cartDrawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
   <div class="cd-head"><h3 id="cartTitle">Keranjang kamu</h3><button type="button" id="cartClose" class="cd-close" aria-label="Tutup keranjang">✕</button></div>
   <div class="cd-body">
-    <div id="cartEmpty" class="cd-empty"><p>Keranjangmu masih kosong.<br>Pilih menu dulu, ya!</p><button type="button" class="btn btn-primary" id="cartToMenu">Lihat Menu</button></div>
+    <div id="cartEmpty" class="cd-empty"><p>Keranjangmu masih kosong.<br>Pilih menu dulu, ya!</p><button type="button" class="btn btn-primary" id="cartToMenu">Lihat Menu</button><button type="button" class="btn btn-ghost" id="notaLast" hidden>🧾 Lihat nota terakhir</button></div>
     <div id="cartContent" hidden>
       <ul id="cartList" class="cd-list"></ul>
       <div class="cd-total"><span>Total belanja</span><b id="cartTotal">Rp0</b></div>
@@ -338,6 +338,22 @@
     <a id="shareMail" class="share-app">Email</a>
   </div>
   <p class="sheet-hint">Untuk Instagram: salin link lalu tempel di bio, story, atau DM.</p>
+</div>
+
+<div id="notaSheet" class="sheet nota-sheet" role="dialog" aria-modal="true" aria-labelledby="notaTitle" aria-hidden="true">
+  <div class="sheet-head"><h3 id="notaTitle">Nota pesanan kamu</h3><button type="button" class="cd-close" data-close-nota aria-label="Tutup nota">✕</button></div>
+  <p class="sheet-sub">Simpan sebagai bukti pesanan. Setelah pesanan sampai, centang konfirmasi di bawah nota supaya nota berstempel SELESAI.</p>
+  <img id="notaImg" class="nota-preview" alt="Nota pesanan Kedai A'M">
+  <div id="notaConfirm" class="nota-confirm">
+    <p class="nc-title">Konfirmasi pelanggan</p>
+    <label class="nc-check"><input type="checkbox" id="notaCheck"> <span>Pesananku sudah diterima dan selesai</span></label>
+    <button type="button" id="notaDone" class="btn btn-light" disabled>✅ Konfirmasi Selesai</button>
+  </div>
+  <p id="notaDoneMsg" class="nota-done-msg" hidden></p>
+  <div class="nota-actions">
+    <button type="button" id="notaDownload" class="btn btn-primary">⬇ Unduh Nota (PNG)</button>
+    <button type="button" id="notaShare" class="btn btn-ghost" hidden>Bagikan</button>
+  </div>
 </div>
 
 <div id="iosSheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="iosTitle" aria-hidden="true">

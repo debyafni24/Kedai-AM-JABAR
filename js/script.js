@@ -264,6 +264,228 @@ overlay.addEventListener('click', closeCart);
 $('cartToMenu').addEventListener('click', ()=>{ closeCart(); setTimeout(()=> document.getElementById('menu').scrollIntoView({behavior:'smooth'}), 150); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeCart(); });
 
+/* ================= NOTA PESANAN (gambar PNG, bisa diunduh) ================= */
+const NOTA_W = 640;
+function notaFmtDate(iso){
+  const d = new Date(iso);
+  const tgl = new Intl.DateTimeFormat('id-ID',{timeZone:'Asia/Jakarta',day:'numeric',month:'long',year:'numeric'}).format(d);
+  const jam = new Intl.DateTimeFormat('id-ID',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',hour12:false}).format(d).replace(':','.');
+  return tgl + ', ' + jam + ' WIB';
+}
+function notaFileName(o){
+  const d = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta'}).format(new Date(o.at)).replace(/-/g,'');
+  return 'nota-kedai-am-pelanggan-' + o.no + '-' + d + (o.done ? '-selesai' : '') + '.png';
+}
+/* Bungkus teks ke beberapa baris sesuai lebar (kata yang terlalu panjang dipotong per huruf) */
+function notaWrap(ctx, text, maxW){
+  const lines = []; let cur = '';
+  String(text).split(/\s+/).filter(Boolean).forEach(word=>{
+    while(ctx.measureText(word).width > maxW){
+      let k = word.length; while(k > 1 && ctx.measureText(word.slice(0,k)).width > maxW) k--;
+      if(cur){ lines.push(cur); cur = ''; }
+      lines.push(word.slice(0,k)); word = word.slice(k);
+    }
+    const t = cur ? cur + ' ' + word : word;
+    if(!cur || ctx.measureText(t).width <= maxW) cur = t; else { lines.push(cur); cur = word; }
+  });
+  if(cur) lines.push(cur);
+  return lines.length ? lines : [''];
+}
+/* Menggambar nota. draw=false hanya menghitung tinggi. Mengembalikan tinggi total. */
+function notaPaint(ctx, o, logo, draw){
+  const W = NOTA_W, P = 40, SANS = '"Plus Jakarta Sans", system-ui, sans-serif', DISP = '"Bricolage Grotesque", "Plus Jakarta Sans", system-ui, sans-serif';
+  const INK = '#241A16', SOFT = '#5B4A42', CHILI = '#C6311F', MUSTARD = '#F2A93B';
+  const put = (t, x, y, font, color, align)=>{ ctx.font = font; if(!draw) return; ctx.fillStyle = color; ctx.textAlign = align || 'left'; ctx.fillText(t, x, y); };
+  const dash = y=>{ if(!draw) return; ctx.strokeStyle = '#CDBBA4'; ctx.lineWidth = 2; ctx.setLineDash([8,6]); ctx.beginPath(); ctx.moveTo(P,y); ctx.lineTo(W-P,y); ctx.stroke(); ctx.setLineDash([]); };
+
+  if(draw){
+    ctx.fillStyle = '#FFFCF7'; ctx.fillRect(0, 0, W, 4000);
+    ctx.fillStyle = '#1D1210'; ctx.fillRect(0, 0, W, 150);
+    if(logo){ ctx.save(); ctx.beginPath(); ctx.arc(P+36, 75, 36, 0, Math.PI*2); ctx.clip(); ctx.drawImage(logo, P, 39, 72, 72); ctx.restore(); }
+  }
+  put("Kedai A'M", P+90, 76, '700 34px ' + DISP, MUSTARD);
+  put('NOTA PESANAN', P+90, 106, '700 15px ' + SANS, '#E9DCC9');
+  put('NOMOR PELANGGAN', W-P, 62, '700 12px ' + SANS, '#CBB9A3', 'right');
+  put(String(o.no), W-P, 112, '700 50px ' + DISP, MUSTARD, 'right');
+
+  let y = 150 + 42;
+  const COL = P + 132, VAL_W = W - P - COL;
+  const row = (label, value, strong)=>{
+    put(label, P, y, '600 17px ' + SANS, SOFT);
+    ctx.font = (strong ? '700 ' : '600 ') + '19px ' + SANS;
+    notaWrap(ctx, value, VAL_W).forEach((ln, i)=>{ put(ln, COL, y + i*27, (strong ? '700 ' : '600 ') + '19px ' + SANS, INK); if(i) y += 0; });
+    y += notaWrap(ctx, value, VAL_W).length * 27 + 6;
+  };
+  row('Tanggal', notaFmtDate(o.at));
+  row('Atas nama', o.nama, true);
+  row('Metode', o.metode === 'antar' ? 'Diantar' : 'Ambil sendiri');
+  if(o.metode === 'antar'){
+    row('Wilayah', o.area === 'in' ? 'Kampung Tahu Cibuntu' : 'Di luar Kampung Tahu Cibuntu');
+    row('Alamat', o.alamat);
+  }
+
+  y += 8; dash(y); y += 38;
+  put('PESANAN', P, y, '700 14px ' + SANS, SOFT); y += 14;
+
+  const NAME_W = W - 2*P - 170;
+  o.items.forEach(it=>{
+    y += 30;
+    ctx.font = '700 21px ' + SANS;
+    const lines = notaWrap(ctx, it.name, NAME_W);
+    lines.forEach((ln, i)=> put(ln, P, y + i*28, '700 21px ' + SANS, INK));
+    put(rp(it.price * it.qty), W-P, y, '700 21px ' + SANS, INK, 'right');
+    y += (lines.length - 1) * 28 + 26;
+    put(it.qty + ' x ' + rp(it.price), P, y, '500 17px ' + SANS, SOFT);
+    y += 10;
+  });
+
+  y += 14; dash(y); y += 36;
+  put('Subtotal (' + o.count + ' item)', P, y, '600 18px ' + SANS, SOFT);
+  put(rp(o.total), W-P, y, '600 18px ' + SANS, INK, 'right');
+  if(o.metode === 'antar'){
+    y += 32;
+    put('Ongkir', P, y, '600 18px ' + SANS, SOFT);
+    put(o.area === 'in' ? 'Gratis' : 'Dikonfirmasi admin', W-P, y, '600 18px ' + SANS, INK, 'right');
+  }
+  y += 52;
+  put('TOTAL', P, y, '700 22px ' + SANS, INK);
+  put(rp(o.total), W-P, y + 2, '700 42px ' + DISP, CHILI, 'right');
+  y += 22;
+
+  if(o.catatan){
+    y += 18; dash(y); y += 36;
+    put('Catatan', P, y, '700 14px ' + SANS, SOFT); y += 6;
+    ctx.font = '500 18px ' + SANS;
+    notaWrap(ctx, o.catatan, W - 2*P).forEach(ln=>{ y += 27; put(ln, P, y, '500 18px ' + SANS, INK); });
+    y += 4;
+  }
+
+  /* Konfirmasi pelanggan */
+  y += 22; dash(y); y += 36;
+  put('KONFIRMASI PELANGGAN', P, y, '700 14px ' + SANS, SOFT);
+  const T = y;
+  y += 18 + (o.done ? 26 : 0);   // baris khusus untuk stempel saat sudah selesai
+  const GREEN = '#3F5E2A', bx = P, by = y, bs = 30;
+  if(draw){
+    ctx.lineWidth = 3; ctx.strokeStyle = o.done ? GREEN : INK; ctx.fillStyle = o.done ? GREEN : '#FFFCF7';
+    ctx.beginPath(); ctx.rect(bx, by, bs, bs); ctx.fill(); ctx.stroke();
+    if(o.done){ ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(bx+7, by+16); ctx.lineTo(bx+13, by+23); ctx.lineTo(bx+24, by+8); ctx.stroke(); ctx.lineCap = 'butt'; }
+  }
+  put('Pesanan sudah saya terima dan selesai', bx+bs+16, by+23, '600 19px ' + SANS, INK);
+  y = by + bs + 30;
+  if(o.done && o.doneAt){
+    put('Dikonfirmasi pelanggan: ' + notaFmtDate(o.doneAt), bx+bs+16, y - 2, '700 16px ' + SANS, GREEN);
+    if(draw){ ctx.save(); ctx.translate(W-P-80, T+4); ctx.rotate(-0.12);
+      ctx.strokeStyle = GREEN; ctx.lineWidth = 4; ctx.beginPath(); ctx.rect(-65, -22, 130, 44); ctx.stroke();
+      ctx.lineWidth = 1.5; ctx.beginPath(); ctx.rect(-60, -17, 120, 34); ctx.stroke();
+      ctx.font = '800 26px ' + DISP; ctx.fillStyle = GREEN; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('SELESAI', 0, 2);
+      ctx.restore(); ctx.textBaseline = 'alphabetic'; }
+  } else {
+    put('Status: menunggu konfirmasi pelanggan', bx+bs+16, y - 2, '500 16px ' + SANS, SOFT);
+  }
+
+  y += 22; dash(y); y += 42;
+  put("Terima kasih sudah pesan di Kedai A'M!", W/2, y, '700 20px ' + DISP, INK, 'center');
+  ctx.font = '500 14px ' + SANS;
+  notaWrap(ctx, 'Nota ini dibuat otomatis dari pesananmu. Pembayaran dan ongkir (jika ada) dikonfirmasi admin lewat WhatsApp.', W - 2*P - 40)
+    .forEach((ln, i)=> put(ln, W/2, y + 28 + i*21, '500 14px ' + SANS, SOFT, 'center'));
+  y += 28 + 2*21 + 34;
+  return Math.ceil(y);
+}
+async function notaRender(o){
+  try{ await Promise.all(['700 30px "Bricolage Grotesque"','700 20px "Plus Jakarta Sans"','600 20px "Plus Jakarta Sans"','500 20px "Plus Jakarta Sans"'].map(f=> document.fonts.load(f))); }catch(e){}
+  const logo = await new Promise(res=>{ const im = new Image(); im.onload = ()=> res(im); im.onerror = ()=> res(null); im.src = 'img/logo.png'; });
+  const make = lg => new Promise((resolve, reject)=>{
+    const H = notaPaint(document.createElement('canvas').getContext('2d'), o, lg, false);
+    const S = 2, cv = document.createElement('canvas'); cv.width = NOTA_W*S; cv.height = H*S;
+    const ctx = cv.getContext('2d'); ctx.scale(S, S);
+    notaPaint(ctx, o, lg, true);
+    try{ cv.toBlob(b=> b ? resolve(b) : reject(new Error('toBlob kosong')), 'image/png'); }catch(e){ reject(e); }
+  });
+  try{ return await make(logo); }catch(e){ return await make(null); }   // kalau logo membuat canvas "tainted", ulangi tanpa logo
+}
+
+const notaSheet = $('notaSheet'), notaOverlay = $('sheetOverlay');
+let notaOpen = false, notaUrl = null, notaBlob = null, notaOrder = null;
+function openNota(){
+  if(notaOpen) return; notaOpen = true;
+  try{ history.pushState({ov:'nota'}, ''); }catch(e){}
+  notaSheet.classList.add('open'); notaOverlay.classList.add('show'); notaSheet.setAttribute('aria-hidden','false');
+  notaSheet.scrollTop = 0; $('notaDownload').focus();
+}
+function hideNota(){
+  if(!notaOpen) return; notaOpen = false;
+  notaSheet.classList.remove('open'); notaOverlay.classList.remove('show'); notaSheet.setAttribute('aria-hidden','true');
+}
+function closeNota(){
+  if(!notaOpen) return;
+  if(history.state && history.state.ov === 'nota') history.back(); else hideNota();
+}
+window.addEventListener('popstate', hideNota);
+notaOverlay.addEventListener('click', closeNota);
+notaSheet.querySelectorAll('[data-close-nota]').forEach(b=> b.addEventListener('click', closeNota));
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeNota(); });
+
+async function showNota(o){
+  try{
+    notaBlob = await notaRender(o); notaOrder = o;
+    if(notaUrl) URL.revokeObjectURL(notaUrl);
+    notaUrl = URL.createObjectURL(notaBlob);
+    $('notaImg').src = notaUrl;
+    syncNotaConfirm(o);
+    let canShare = false;
+    try{ canShare = !!(navigator.canShare && navigator.canShare({files:[new File([notaBlob], notaFileName(o), {type:'image/png'})]})); }catch(e){}
+    $('notaShare').hidden = !canShare;
+    openNota(); return true;
+  }catch(e){ console.warn('Nota gagal dibuat:', e); return false; }
+}
+function syncNotaConfirm(o){
+  const done = !!(o && o.done);
+  $('notaConfirm').hidden = done; $('notaDoneMsg').hidden = !done;
+  $('notaCheck').checked = false; $('notaDone').disabled = true;
+  if(done) $('notaDoneMsg').textContent = '✅ Pesanan selesai. Dikonfirmasi pelanggan pada ' + notaFmtDate(o.doneAt);
+}
+$('notaCheck').addEventListener('change', ()=>{ $('notaDone').disabled = !$('notaCheck').checked; });
+$('notaDone').addEventListener('click', async ()=>{
+  if(!notaOrder || notaOrder.done) return;
+  const btn = $('notaDone'); btn.disabled = true;
+  const o = Object.assign({}, notaOrder, {done:true, doneAt:new Date().toISOString()});
+  try{
+    const blob = await notaRender(o);
+    notaOrder = o; notaBlob = blob;
+    if(notaUrl) URL.revokeObjectURL(notaUrl);
+    notaUrl = URL.createObjectURL(blob); $('notaImg').src = notaUrl;
+    try{ localStorage.setItem('am_last_order', JSON.stringify(o)); }catch(e){}
+    syncNotaConfirm(o);
+    $('notaDoneMsg').scrollIntoView({block:'nearest'});
+  }catch(e){ console.warn('Konfirmasi gagal:', e); btn.disabled = false; }
+});
+$('notaDownload').addEventListener('click', ()=>{
+  if(!notaUrl || !notaOrder) return;
+  const a = document.createElement('a'); a.href = notaUrl; a.download = notaFileName(notaOrder);
+  document.body.appendChild(a); a.click(); a.remove();
+});
+$('notaShare').addEventListener('click', ()=>{
+  if(!notaBlob || !notaOrder) return;
+  const f = new File([notaBlob], notaFileName(notaOrder), {type:'image/png'});
+  navigator.share({files:[f], title:"Nota Kedai A'M"}).catch(()=>{});
+});
+/* Nota terakhir disimpan di browser, bisa dibuka lagi dari keranjang yang kosong */
+function loadLastOrder(){
+  try{
+    const o = JSON.parse(localStorage.getItem('am_last_order') || 'null');
+    if(o && Array.isArray(o.items) && o.items.length && Number.isInteger(o.no) && o.at) return o;
+  }catch(e){}
+  return null;
+}
+function refreshNotaLast(){ $('notaLast').hidden = !loadLastOrder(); }
+$('notaLast').addEventListener('click', ()=>{
+  const o = loadLastOrder(); if(!o) return;
+  closeCart(); setTimeout(()=> showNota(o), 450);
+});
+refreshNotaLast();
+
 /* Checkout -> WhatsApp */
 $('checkoutBtn').addEventListener('click', ()=>{
   const v = validate(); if(!v.ok){ $('cartHint').textContent = v.msg; return; }
@@ -288,6 +510,11 @@ $('checkoutBtn').addEventListener('click', ()=>{
   }
   if(custNote.value.trim()) msg += 'Catatan: '+custNote.value.trim()+'\n';
 
+  const order = {no:nomor, nama, at:new Date().toISOString(),
+    items:Object.keys(cart).map(id=>({name:CATALOG[id].name, qty:cart[id], price:CATALOG[id].price})),
+    count:items, total:sum, metode:method, area:(method==='antar' ? areaValue() : null),
+    alamat:(method==='antar' ? custAddr.value.trim() : ''), catatan:custNote.value.trim()};
+
   const url = waLink(msg.trim());
   const w = window.open(url, '_blank');
   if(!w) window.location.href = url;
@@ -296,7 +523,10 @@ $('checkoutBtn').addEventListener('click', ()=>{
   custAddr.value = ''; custNote.value = '';
   method = null; document.querySelectorAll('input[name="method"]').forEach(r=> r.checked = false);
   $('deliveryBox').hidden = true;
-  closeCart(); render(); showToast('Pelanggan '+nomor);
+  closeCart(); render();
+  try{ localStorage.setItem('am_last_order', JSON.stringify(order)); }catch(e){}
+  refreshNotaLast();
+  setTimeout(async ()=>{ if(!(await showNota(order))) showToast('Pelanggan '+nomor); }, 450);
 });
 
 /* ================= PENCARIAN MENU ================= */
